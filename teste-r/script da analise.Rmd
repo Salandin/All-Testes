@@ -1,0 +1,72 @@
+---
+title: "R Notebook"
+output: html_notebook
+---
+
+# Link da fonte
+
+[KFF](https://www.kff.org/other/state-indicator/death-rate-by-raceethnicity/?currentTimeframe=0&sortModel=%7B"colId":"Location","sort":"asc"%7D)
+
+```{r}
+library(devtools)
+devtools::install_github("mnpopcenter/ipumsr/ipumsexamples")
+```
+
+```{r}
+suppressPackageStartupMessages({
+  library(ipumsr)
+  library(sf)
+  library(dplyr)
+  library(ggplot2)
+  library(gridExtra)
+})
+
+# Load data
+BlackPeopleDeaths <- read.csv("b_data.csv",
+                  stringsAsFactors = FALSE, 
+                  strip.white = TRUE,
+                  sep = ',',)
+
+head(BlackPeopleDeaths)
+```
+```{r}
+BlackPeopleDeaths$Death
+BlackPeopleDeaths$ï..State
+
+x <- BlackPeopleDeaths$ï..State
+y <- BlackPeopleDeaths$Death
+
+BDeathTable <- ggplot(BlackPeopleDeaths, mapping = aes(x = reorder(ï..State, -Death), y = Death)) +
+  geom_col(position = "dodge", alpha = 0.8, color = "red") +
+  coord_flip()
+
+BDeathTable
+```
+
+````{r}
+
+WhitePeopleDeaths <- read.csv("w_data.csv",
+                  stringsAsFactors = FALSE, 
+                  strip.white = TRUE,
+                  sep = ',',)
+
+head(WhitePeopleDeaths)
+```
+
+````{r}
+WhitePeopleDeaths$Death
+WhitePeopleDeaths$ï..States
+
+x <- WhitePeopleDeaths$ï..States
+y <- WhitePeopleDeaths$Death
+
+WDeathTable <- ggplot(WhitePeopleDeaths, mapping = aes(x = reorder(ï..States, -Death), y = Death)) +
+  geom_col(position = "dodge", alpha = 0.8, color = "purple") +
+  coord_flip()
+
+WDeathTable
+```
+
+```{r}
+grid.arrange(BDeathTable, WDeathTable)
+```

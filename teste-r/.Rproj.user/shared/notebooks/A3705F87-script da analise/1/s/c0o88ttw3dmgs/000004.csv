@@ -1,0 +1,7 @@
+"0",""
+"0","WhitePeopleDeaths <- read.csv(""w_data.csv"","
+"0","                  stringsAsFactors = FALSE, "
+"0","                  strip.white = TRUE,"
+"0","                  sep = ',',)"
+"0",""
+"0","head(WhitePeopleDeaths)"
